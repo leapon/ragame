@@ -3,19 +3,38 @@
 {% block script %}
 {% parent %}
 <script>
+var selectedElements = {};
+
 $().ready(function() {
   console.log('>>> in ready');
   setup();
 });
 
 function setup() {
-
+  $('.element-block').on('click', function(element) {
+    var elementClicked = element.currentTarget.id;
+    console.log('clicked on', elementClicked);
+    if (selectedElements[elementClicked]) {
+      selectedElements[elementClicked] = false;
+      $('#' + elementClicked).removeClass('active');
+    } else {
+      selectedElements[elementClicked] = true;
+      $('#' + elementClicked).addClass('active');
+    }
+  });
+  $('#rateButton').on('click', function() {
+    console.log('>>> check result');
+  })
 }
 </script>
 {% endblock %}
 
 {% block style %}
-{% parent %}
+) {
+
+} else {
+
+}{% parent %}
 <style>
 .element-block {
   background-color: #f2f2f2;
@@ -26,6 +45,13 @@ function setup() {
   margin-bottom: 10px;
   float: left;
   font-size: 1.2em;
+}
+.element-block:hover {
+  color: red;
+  cursor: pointer;
+}
+.element-block.active {
+  background-color: #c2c2c2;
 }
 </style>
 {% endblock %}
@@ -49,12 +75,20 @@ function setup() {
     <div class="row" style="margin-top:30px;">
         <div class="col-md-10">
             {% for element in page.elements %}
-            <div class="element-block">
+            <div class="element-block" id="{{ element.symbol }}">
                 {{ element.name }}</a>
             </div>
             {% endfor %}
         </div>
     </div>
 
+    <div class="row" style="margin-top:30px;">
+        <div class="col-md-10">
+            <button class="btn btn-large btn-info" id="rateButton">Check Result</button>
+        </div>
+        <div class="col-md-10">
+            <div id="result"></div>
+        </div>
+    </div>
 </div>
 {% endblock %}
