@@ -13,7 +13,7 @@ module.exports = function(app) {
     block.page = tool.object(require('basepage')(app, moduleName, block.data));
     block.model = null;
 
-    block.data.elements = [
+    block.elements = [
       {
         "symbol": "Y",
         "name": "Yttrium",
@@ -73,8 +73,8 @@ module.exports = function(app) {
     // block data
     block.getElement = function(elementInput) {
       var elementData = null;
-      for (var i = 0; i < block.data.elements.length; i++) {
-        var element = block.data.elements[i];
+      for (var i = 0; i < block.elements.length; i++) {
+        var element = block.elements[i];
         if (element.symbol == elementInput || element.name == elementInput) {
           elementData = element
         }
@@ -83,6 +83,12 @@ module.exports = function(app) {
     };
 
     // block data
+    block.data.getAllElements = function(req, res) {
+      var callback = arguments[3] || null;
+      var parameter = tool.getReqParameter(req);
+      app.cb(null, block.elements, {}, req, res, callback);
+    };
+
     block.data.getElement = function(req, res) {
       var callback = arguments[3] || null;
       var parameter = tool.getReqParameter(req);
@@ -92,6 +98,7 @@ module.exports = function(app) {
     // block page
     block.page.getIndex = function(req, res) {
       var page = app.getPage(req);
+      page.elements = block.elements;
       res.render('element/index', { page:page });
     };
 
@@ -105,6 +112,7 @@ module.exports = function(app) {
 
     // page route
     app.server.get('/element', block.page.getIndex);
+    app.server.get('/data/element/all', block.data.getAllElements);
     app.server.get('/data/element/:name', block.data.getElement);
     app.server.get('/element/:name', block.page.showElement);
 
