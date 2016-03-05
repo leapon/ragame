@@ -144,6 +144,13 @@ module.exports = function(app) {
       res.render('element/index', { page:page });
     };
 
+    block.page.showGame = function(req, res) {
+      var page = app.getPage(req);
+      var parameter = tool.getReqParameter(req);
+      page.component = 'Color Screen';
+      res.render('element/game', { page:page });
+    };
+    
     block.page.showElement = function(req, res) {
       var page = app.getPage(req);
       var parameter = tool.getReqParameter(req);
@@ -157,6 +164,7 @@ module.exports = function(app) {
     app.server.get('/data/element/all', block.data.getAllElements);
     app.server.get('/data/element/:name/components', block.data.getComponentsForElement);
     app.server.get('/data/element/:name', block.data.getElement);
+    app.server.get('/element/game', block.page.showGame);
     app.server.get('/element/:name', block.page.showElement);
 
     return block;
