@@ -1,5 +1,12 @@
 {% extends '../layout/layout.html' %}
 
+{% block script %}
+{% parent %}
+<script>
+console.log('>>> in element detail');
+</script>
+{% endblock %}
+
 {% block style %}
 {% parent %}
 <style>
