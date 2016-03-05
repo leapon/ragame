@@ -24,6 +24,12 @@ function setup() {
   });
   $('#rateButton').on('click', function() {
     console.log('>>> check result');
+    var selectedBlocks = $('.element-block-container .element-block.active');
+    var selectedElements = [];
+    for (var i = 0; i < selectedBlocks.length; i++) {
+      selectedElements.push(selectedBlocks[i].id);
+    }
+    console.log('>>> selectedElements:', selectedElements);
   })
 }
 </script>
@@ -73,7 +79,7 @@ function setup() {
     </div>
 
     <div class="row" style="margin-top:30px;">
-        <div class="col-md-10">
+        <div class="col-md-10 element-block-container">
             {% for element in page.elements %}
             <div class="element-block" id="{{ element.symbol }}">
                 {{ element.name }}</a>
