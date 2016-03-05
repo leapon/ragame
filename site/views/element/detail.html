@@ -3,7 +3,14 @@
 {% block script %}
 {% parent %}
 <script>
-console.log('>>> in element detail');
+$().ready(function() {
+  console.log('>>> in ready');
+  setup();
+});
+
+function setup() {
+  console.log('>>> in element detail');
+}
 </script>
 {% endblock %}
 
