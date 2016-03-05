@@ -10,7 +10,11 @@ $().ready(function() {
 
 function setup() {
   var elementSymbol = "{{ page.element.symbol }}";
-  console.log('>>> in element detail for', elementSymbol);
+  var componentsUrl = '/data/element/' + elementSymbol + '/components';
+  $.get(componentsUrl, function(data) {
+    var content = data.docs.join(', ') || 'none';
+    $('#phone-use').html(content);
+  });
 }
 </script>
 {% endblock %}
@@ -20,6 +24,9 @@ function setup() {
 <style>
 .element-image img {
   width: 100%;
+}
+#phone-use {
+  margin-top: 12px;
 }
 </style>
 {% endblock %}
@@ -36,8 +43,16 @@ function setup() {
     <div class="row" style="margin-top:30px;">
         <div class="col-md-4">
             <div>Symbol: {{ page.element.symbol }}</div>
+            <br/>
             <div>Name: {{ page.element.name }}</div>
+            <br/>
             <div>Wikipedia: <a href="{{ page.element.wiki }}">link</a></div>
+            <br/>
+            <div>
+              Where it is used in celll phone:
+              <div id="phone-use"></div>
+            </div>
+
         </div>
         <div class="col-md-4">
             <div class="element-image"><img src="{{ page.element.image }}" alt="{{ page.element.name }}" /></div>

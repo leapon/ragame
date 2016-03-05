@@ -107,7 +107,7 @@ module.exports = function(app) {
         console.log('>>> componentName:', componentName);
         var elements = block.componentCol[componentName].elements;
         console.log('>>> elements:', elements);
-        if (elements.indexOf(elementInput) > 0) {
+        if (elements.indexOf(elementInput) >= 0) {
           componentNames.push(componentName);
         }
       }
