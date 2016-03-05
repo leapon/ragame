@@ -3,12 +3,23 @@
 {% block content %}
 <div class="body-container container">
 
-    <div class="row">
+    <div class="row" style="margin-top:30px;">
         <div class="col-md-12">
             <h4>Element Index</h4>
         </div>
     </div>
 
+    <div class="row" style="margin-top:30px;">
+        <div class="col-md-12">
+            <ul>
+            {% for element in page.elements %}
+            <li>
+                <a href="/element/{{ element.symbol }}">{{ element.name }}</a>
+            </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
 
 </div>
 {% endblock %}
