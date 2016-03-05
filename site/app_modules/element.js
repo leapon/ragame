@@ -71,7 +71,7 @@ module.exports = function(app) {
     ];
 
     // block data
-    block.data.getElement = function(elementInput) {
+    block.getElement = function(elementInput) {
       var elementData = null;
       for (var i = 0; i < block.data.elements.length; i++) {
         var element = block.data.elements[i];
@@ -80,6 +80,13 @@ module.exports = function(app) {
         }
       }
       return elementData;
+    };
+
+    // block data
+    block.data.getElement = function(req, res) {
+      var callback = arguments[3] || null;
+      var parameter = tool.getReqParameter(req);
+      app.cb(null, block.getElement(parameter.name), {}, req, res, callback);
     };
 
     // block page
@@ -91,13 +98,14 @@ module.exports = function(app) {
     block.page.showElement = function(req, res) {
       var page = app.getPage(req);
       var parameter = tool.getReqParameter(req);
-      page.element = block.data.getElement(parameter.name);
+      page.element = block.getElement(parameter.name);
       console.log('element data:', page.element);
       res.render('element/detail', { page:page });
     };
 
     // page route
     app.server.get('/element', block.page.getIndex);
+    app.server.get('/data/element/:name', block.data.getElement);
     app.server.get('/element/:name', block.page.showElement);
 
     return block;
