@@ -115,6 +115,16 @@ module.exports = function(app) {
       return componentNames;
     };
 
+    // find components that uses given element
+    block.getRandomComponent = function() {
+      var componentNames = [];
+      for (componentName in block.componentCol) {
+        componentNames.push(componentName);
+      }
+      var randomeIndex = Math.floor(Math.random() * componentNames.length);
+      return componentNames[randomeIndex];
+    };
+
     // block data
     block.data.getAllElements = function(req, res) {
       var callback = arguments[3] || null;
@@ -141,8 +151,21 @@ module.exports = function(app) {
       var callback = arguments[3] || null;
       var parameter = tool.getReqParameter(req);
       console.log('>>> checkGameResult parameter:', parameter);
-
-      app.cb(null, [], { message:'test' }, req, res, callback);
+      var elements = block.componentCol[parameter.component].elements;
+      var correctCount = 0;
+      for (var i = 0; i < parameter.elements.length; i++) {
+        if (elements.indexOf(parameter.elements[i]) >= 0) {
+          correctCount = correctCount + 1;
+        }
+      }
+      var info = {
+        component: parameter.component,
+        elements: elements,
+        total: elements.length,
+        correct: correctCount,
+        wrong: parameter.elements.length - correctCount
+      };
+      app.cb(null, [], info, req, res, callback);
     };
 
     // block page
@@ -155,7 +178,7 @@ module.exports = function(app) {
     block.page.showGame = function(req, res) {
       var page = app.getPage(req);
       var parameter = tool.getReqParameter(req);
-      page.component = 'Color Screen';
+      page.component = block.getRandomComponent();
       page.elements = block.elements;
       res.render('element/game', { page:page });
     };
