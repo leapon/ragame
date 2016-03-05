@@ -1,11 +1,33 @@
 {% extends '../layout/layout.html' %}
 
+{% block style %}
+{% parent %}
+<style>
+.element-image img {
+  width: 100%;
+}
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="body-container container">
+
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <h4>Element Detail</h4>
         </div>
     </div>
+
+    <div class="row" style="margin-top:30px;">
+        <div class="col-md-4">
+            <div>Symbol: {{ page.element.symbol }}</div>
+            <div>Name: {{ page.element.name }}</div>
+            <div>Wikipedia: <a href="{{ page.element.wiki }}">link</a></div>
+        </div>
+        <div class="col-md-4">
+            <div class="element-image"><img src="{{ page.element.image }}" alt="{{ page.element.name }}" /></div>
+        </div>
+    </div>
+
 </div>
 {% endblock %}
