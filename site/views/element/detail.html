@@ -9,7 +9,8 @@ $().ready(function() {
 });
 
 function setup() {
-  console.log('>>> in element detail');
+  var elementSymbol = "{{ page.element.symbol }}";
+  console.log('>>> in element detail for', elementSymbol);
 }
 </script>
 {% endblock %}
