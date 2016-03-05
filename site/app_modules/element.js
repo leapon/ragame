@@ -148,9 +148,10 @@ module.exports = function(app) {
       var page = app.getPage(req);
       var parameter = tool.getReqParameter(req);
       page.component = 'Color Screen';
+      page.elements = block.elements;
       res.render('element/game', { page:page });
     };
-    
+
     block.page.showElement = function(req, res) {
       var page = app.getPage(req);
       var parameter = tool.getReqParameter(req);

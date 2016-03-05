@@ -9,6 +9,7 @@ $().ready(function() {
 });
 
 function setup() {
+
 }
 </script>
 {% endblock %}
@@ -16,6 +17,16 @@ function setup() {
 {% block style %}
 {% parent %}
 <style>
+.element-block {
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 40px;
+  width: 20%;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  float: left;
+  font-size: 1.2em;
+}
 </style>
 {% endblock %}
 
@@ -24,13 +35,24 @@ function setup() {
 
     <div class="row">
         <div class="col-md-10">
-            <h4>Shopping parts for iPhone</h4>
+            <h4>Shopping elements for iPhone part</h4>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top:30px;">
+        <div class="col-md-6">
+            <h4>You are in a rare earth element supply store, select elements needed for:</h4>
+            <h1>{{ page.component }}</h1>
         </div>
     </div>
 
     <div class="row" style="margin-top:30px;">
         <div class="col-md-10">
-            <div>Component: {{ page.component }}</div>
+            {% for element in page.elements %}
+            <div class="element-block">
+                {{ element.name }}</a>
+            </div>
+            {% endfor %}
         </div>
     </div>
 
