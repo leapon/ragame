@@ -70,7 +70,25 @@ module.exports = function(app) {
       }
     ];
 
-    // block data
+    block.componentCol = {
+      "Color Screen": {
+        "elements": ["Y", "La", "Pr", "Eu", "Gd", "Tb", "Dy"]
+      },
+      "Glass Polishing": {
+        "elements": ["La", "Ce", "Pr"]
+      },
+      "Phone Circuitry": {
+        "elements": ["La", "Pr", "Nd", "Gd", "Dy"]
+      },
+      "Speaker": {
+        "elements": ["Pr", "Nd", "Gd", "Tb", "Dy"]
+      },
+      "Vibration Unit": {
+        "elements": ["Nd", "Tb", "Dy"]
+      },
+    };
+
+    // support
     block.getElement = function(elementInput) {
       var elementData = null;
       for (var i = 0; i < block.elements.length; i++) {
@@ -80,6 +98,21 @@ module.exports = function(app) {
         }
       }
       return elementData;
+    };
+
+    // find components that uses given element
+    block.getComponentsForElement = function(elementInput) {
+      var componentNames = [];
+      for (componentName in block.componentCol) {
+        console.log('>>> componentName:', componentName);
+        var elements = block.componentCol[componentName].elements;
+        console.log('>>> elements:', elements);
+        if (elements.indexOf(elementInput) > 0) {
+          componentNames.push(componentName);
+        }
+      }
+      console.log('>>> componentNames:', componentNames);
+      return componentNames;
     };
 
     // block data
@@ -93,6 +126,15 @@ module.exports = function(app) {
       var callback = arguments[3] || null;
       var parameter = tool.getReqParameter(req);
       app.cb(null, block.getElement(parameter.name), {}, req, res, callback);
+    };
+
+    block.data.getComponentsForElement = function(req, res) {
+      var callback = arguments[3] || null;
+      var parameter = tool.getReqParameter(req);
+      console.log('>>> name:', parameter.name);
+      console.log('>>> components:', block.getComponentsForElement(parameter.name));
+      var components = block.getComponentsForElement(parameter.name);
+      app.cb(null, components, {}, req, res, callback);
     };
 
     // block page
@@ -113,6 +155,7 @@ module.exports = function(app) {
     // page route
     app.server.get('/element', block.page.getIndex);
     app.server.get('/data/element/all', block.data.getAllElements);
+    app.server.get('/data/element/:name/components', block.data.getComponentsForElement);
     app.server.get('/data/element/:name', block.data.getElement);
     app.server.get('/element/:name', block.page.showElement);
 
