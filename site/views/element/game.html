@@ -4,6 +4,7 @@
 {% parent %}
 <script>
 var selectedElements = {};
+var targetComponent = "{{ page.component }}";
 
 $().ready(function() {
   console.log('>>> in ready');
@@ -30,17 +31,17 @@ function setup() {
       selectedElements.push(selectedBlocks[i].id);
     }
     console.log('>>> selectedElements:', selectedElements);
+    var checkGameUrl = '/data/element/game/check';
+    $.post(checkGameUrl, { component:targetComponent, elements:selectedElements }, function(data) {
+      console.log('check result:', data);
+    });
   })
 }
 </script>
 {% endblock %}
 
 {% block style %}
-) {
-
-} else {
-
-}{% parent %}
+{% parent %}
 <style>
 .element-block {
   background-color: #f2f2f2;

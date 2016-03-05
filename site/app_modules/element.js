@@ -137,6 +137,14 @@ module.exports = function(app) {
       app.cb(null, components, {}, req, res, callback);
     };
 
+    block.data.checkGameResult = function(req, res) {
+      var callback = arguments[3] || null;
+      var parameter = tool.getReqParameter(req);
+      console.log('>>> checkGameResult parameter:', parameter);
+
+      app.cb(null, [], { message:'test' }, req, res, callback);
+    };
+
     // block page
     block.page.getIndex = function(req, res) {
       var page = app.getPage(req);
@@ -165,6 +173,7 @@ module.exports = function(app) {
     app.server.get('/data/element/all', block.data.getAllElements);
     app.server.get('/data/element/:name/components', block.data.getComponentsForElement);
     app.server.get('/data/element/:name', block.data.getElement);
+    app.server.post('/data/element/game/check', block.data.checkGameResult);
     app.server.get('/element/game', block.page.showGame);
     app.server.get('/element/:name', block.page.showElement);
 
