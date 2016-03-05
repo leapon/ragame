@@ -1,11 +1,11 @@
 exports.setting = {
     // web app
-    app_name: 'leapbase',
+    app_name: 'regame',
     http_mode: true,
-    http_port: 8080,
+    http_port: 8701,
     // database
     database: null
-    
+
     //database: {
     //    type: 'mongo',
     //    host: 'localhost',
